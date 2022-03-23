@@ -241,19 +241,6 @@ div #slider {
 .content {
   padding-top: 100px;
   margin-top: -100px;
-
-  /* 最初は非表示 */
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(0, 40px);
-  transition: opacity 1s, visibility 1s, transform 1s;
-}
-
-/* jQueryで各contentクラスの要素をフェードインさせるためのクラス*/
-.is-fadein {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(0, 0);
 }
 
 /* 文字の位置や大きさについて */

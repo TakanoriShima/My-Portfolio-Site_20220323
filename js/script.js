@@ -111,19 +111,19 @@ $(function(){
   const timer1 = setInterval(text_animation1, 100);
   
   // スクロールアニメーション
-  $(window).scroll(function () {
-    // ウィンドウの高さを取得
-    const wh = $(window).height();
-    // スクロール量を取得
-    const scroll = $(window).scrollTop();
-    // フェードインさせたいの要素の上からの距離を取得
-    $('.content').each(function () {
-      const targetPosition = $(this).offset().top;
-      if(scroll > targetPosition - wh + 100){
-        $(this).addClass('.is-fadein');
-      }
-    });
-  });
+  // $(window).scroll(function () {
+  //   // ウィンドウの高さを取得
+  //   const wh = $(window).height();
+  //   // スクロール量を取得
+  //   const scroll = $(window).scrollTop();
+  //   // フェードインさせたいの要素の上からの距離を取得
+  //   $('.content').each(function () {
+  //     const targetPosition = $(this).offset().top;
+  //     if(scroll > targetPosition - wh + 100){
+  //       $(this).addClass('.is-fadein');
+  //     }
+  //   });
+  // });
   
   // hobbyの料理写真のアニメーション(fadein/fadeout)
   const pictures = [
@@ -152,5 +152,47 @@ $(function(){
   // fadein_fadeout関数の実行
   setInterval(fadein_fadeout, 4000);
   
+  // スクロールで表示
+  // 全contentオブジェクト取得    
+  let contents = $('.content');
+  // 表示画面の高さを取得
+  const window_height = $(window).height();
+  console.log("ブラウザの window height: " + window_height + "px");
+    
+  // 初期化。初期画面に見えているcontentオブジェクトのみ表示
+  $.each(contents, (index, content) => {
+    // 注目しているcontentオブジェクトのオフセット取得
+    let offset = $(content).offset();
+    console.log(index + ": " + offset.top + "px");
+    
+    // そのcontentオブジェクトがブラウザの表示領域にあるならば
+    if(window_height > offset.top){
+        // 表示
+        $(content).css({'opacity': '1'});
+    }else{
+        // 非表示
+        $(content).css({'opacity': '0'});
+    }    
+  });
+    
+  // スクロールしたときの処理
+  $(window).scroll(function(){
+      // 現在のスクロール量を取得
+      let scroll_top = $(this).scrollTop();
+      console.log("現在のスクロール量: " + scroll_top + 'px');
+  
+      // 1つ1つのcontentオブジェクトに対しての処理
+      $.each(contents, (index, content) => {
+          // 注目しているcontentオブジェクトのオフセット値取得
+          let offset = $(content).offset();
+          // そのcontentオブジェクトが出現してほしい位置にあるならば
+          // 800は微調整
+          if(offset.top < scroll_top + 800){
+              // 300msかけてアニメーションでふわっと出現
+              $(content).animate({'opacity': '1'}, 300);
+          }
+      });
+  
+  });
 });
 
